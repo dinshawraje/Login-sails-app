@@ -1,0 +1,22 @@
+<script type="text/javascript">
+window.onload = function subscribeAndListen(){
+    // When the document loads, send a request to users.testSocket
+    // The controller code will subscribe you to all of the 'users' model instances (records)
+    socket.get('/users/testSocket/');
+
+    // Listen for the event called 'message' emited by the publishDestroy() method.
+    socket.on('message',function(obj){
+      if (obj.verb == 'destroyed') {
+        console.log('User '+obj.previous.name+' has been destroyed .');
+      }
+    });
+};
+
+function destroy(){
+
+    // Send the name to the testSocket action on the 'Users' contoller
+    socket.get('/users/testSocket/',{name:'Walter'});
+}
+
+</script>
+<div class="addButton" onClick="destroy()">Click Me to destroy user 'Walter' ! </div>
